@@ -74,6 +74,7 @@ export default {
     }, 50),
     emptyIndex() {
       this.currentIndex = -1
+      
     },
   },
 }
