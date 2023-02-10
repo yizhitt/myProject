@@ -3,7 +3,6 @@
     <!-- 使用TypeNav全局组件 -->
     <TypeNav />
 
-    
     <ListContainer />
     <Recommend />
     <Rank />

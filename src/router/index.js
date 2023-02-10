@@ -20,7 +20,7 @@ export default new Router({
       }
     }, {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login,
       meta: {
         show: false
@@ -28,15 +28,15 @@ export default new Router({
     },
     {
       path: '/register',
-      name: 'Register',
+      name: 'register',
       component: Register,
       meta: {
         show: false
       }
     },
     {
-      path: '/search/:keyWord',
-      name: 'Search',
+      path: '/search',
+      name: 'search',
       component: Search,
       meta: {
         show: true
