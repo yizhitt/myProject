@@ -43,7 +43,6 @@
             </div>
           </div>
         </transition>
-
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -72,8 +71,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('categoryList')
-    console.log(this.$route.path)
+    // this.$store.dispatch('categoryList')
+    // console.log(this.$route.path)
     if (this.$route.path != '/home') {
       this.show = false
     }
@@ -109,9 +108,12 @@ export default {
         } else {
           query.categoryId3 = categoryid3
         }
-        location.query = query
-        console.log(location)
-        this.$router.push(location)
+        // if (this.$route.params) {
+          location.params = this.$route.params
+          location.query = query
+          console.log(location)
+          this.$router.push(location)
+        // }
       }
     },
     enterShow() {
@@ -250,7 +252,7 @@ export default {
       height: 461px;
     }
     .sort-enter-active {
-      transform: all 0.5s linear;
+      transition: all 0.5s linear;
     }
   }
 }

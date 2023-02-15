@@ -21,6 +21,9 @@ export default {
     return { areaList }
   },
   components: { Top, Table, Header, Footer },
+  mounted(){
+    this.$store.dispatch('categoryList')
+  }
 }
 </script>
 

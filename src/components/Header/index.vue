@@ -9,7 +9,8 @@
           <p>
             <span>请</span>
             <router-link to="/login">登录</router-link>
-            <router-link to="/register" class="register">免费注册</router-link>
+            <router-link to="/register"
+                         class="register">免费注册</router-link>
             <!-- <a href="###">登录</a>
             <a href="###" class="register">免费注册</a> -->
           </p>
@@ -29,23 +30,22 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <router-link class="logo" to="/home">
-          <img src="./images/logo.png" alt="" />
+        <router-link class="logo"
+                     to="/home">
+          <img src="./images/logo.png"
+               alt="" />
         </router-link>
       </h1>
       <div class="searchArea">
-        <form action="###" class="searchForm">
-          <input
-            type="text"
-            id="autocomplete"
-            class="input-error input-xxlarge"
-            v-model="keyWord"
-          />
-          <button
-            class="sui-btn btn-xlarge btn-danger"
-            type="button"
-            @click="goSearch"
-          >
+        <form action="###"
+              class="searchForm">
+          <input type="text"
+                 id="autocomplete"
+                 class="input-error input-xxlarge"
+                 v-model="keyWord" />
+          <button class="sui-btn btn-xlarge btn-danger"
+                  type="button"
+                  @click="goSearch">
             搜索
           </button>
         </form>
@@ -58,15 +58,24 @@
 export default {
   data() {
     return {
-      keyWord: ''
-    };
+      keyWord: '',
+    }
   },
   methods: {
     goSearch() {
-      this.$router.push({name:"search",params:{keyWord:this.keyWord},query:{k:this.keyWord}});
+      // this.$router.push({
+      //   name: 'search',
+      //   params: { keyWord: this.keyWord || undefined }
+      // })
+      let location = {
+        name: 'search',
+        params: { keyWord: this.keyWord || undefined },
+      }
+      location.query = this.$route.query
+      this.$router.push(location)
     },
   },
-};
+}
 </script>
 
 <style scoped lang="less">
