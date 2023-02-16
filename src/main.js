@@ -15,6 +15,12 @@ Vue.component(TypeNav.name, TypeNav);
 // 引入仓库
 import store from '@/store';
 
+// 引入MockServer.js---mock数据
+import '@/mock/MockServe'
+
+// 引入swiper样式
+import 'swiper/css/swiper.css'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
