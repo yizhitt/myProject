@@ -7,6 +7,10 @@ export const reqCategoryList = () => requests({
   method: 'get'
 })
 
+// 获取banner（Home首页轮播图接口）
 export const reqGetBannerList = () => mockRequests.get('/banner')
-
+// 获取floor数据
 export const reqFloorList = () => mockRequests.get('/floor')
+
+// 获取search模块接口
+export const reqGetSearchInfo = (params) => requests({ url: "http://gmall-h5-api.atguigu.cn/api/list", method: "post", data: params })
