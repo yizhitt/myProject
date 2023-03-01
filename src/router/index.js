@@ -35,7 +35,7 @@ export default new Router({
       }
     },
     {
-      path: '/search/:keyWord',
+      path: '/search/:keyWord?',
       name: 'search',
       component: Search,
       meta: {
