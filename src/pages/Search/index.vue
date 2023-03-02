@@ -11,10 +11,12 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x"
+                v-if="searchParmas.categoryName"
+                @click="removeName">{{ searchParmas.categoryName }}<i>×</i></li>
+            <li class="with-x"
+                v-if="searchParmas.keyword"
+                @click="removeKeyword">{{ searchParmas.keyword }}<i>×</i></li>
           </ul>
         </div>
 
@@ -164,6 +166,34 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch('getSearchList', this.searchParmas)
+    },
+    removeName() {
+      this.searchParmas.categoryName = undefined
+      this.searchParmas.category1Id = undefined
+      this.searchParmas.category2Id = undefined
+      this.searchParmas.category3Id = undefined
+      this.getData()
+      if (this.$route.params) {
+        this.$router.push({ name: 'search', params: this.$route.params })
+      }
+    },
+    removeKeyword() {
+      this.searchParmas.keyword = undefined
+      this.getData()
+      this.$bus.$emit('clear')
+      if (this.$route.query) {
+        this.$router.push({ name: 'search', query: this.query })
+      }
+    },
+  },
+  // 数据监听
+  watch: {
+    $route(newValue, oldValue) {
+      Object.assign(this.searchParmas, this.$route.query, this.$route.params)
+      this.getData()
+      this.searchParmas.category1Id = undefined
+      this.searchParmas.category2Id = undefined
+      this.searchParmas.category3Id = undefined
     },
   },
 }

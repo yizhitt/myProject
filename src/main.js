@@ -28,6 +28,10 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  // 全局事件总线$bus配置
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
   router,
   store,
   components: {

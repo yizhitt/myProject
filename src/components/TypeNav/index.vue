@@ -108,12 +108,12 @@ export default {
         } else {
           query.categoryId3 = categoryid3
         }
-        // if (this.$route.params) {
+        if (this.$route.params) {
           location.params = this.$route.params
           location.query = query
-          console.log(location)
+          // console.log(location)
           this.$router.push(location)
-        // }
+        }
       }
     },
     enterShow() {
