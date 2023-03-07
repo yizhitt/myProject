@@ -16,7 +16,7 @@
                    :class="{action:currentIndex == index}">
                 <h3 @mouseenter="changeIndex(index)">
                   <a :data-categoryname="item1.categoryName"
-                     :data-categoryid1="item1.categoryId">{{ item1.categoryName }}</a>
+                     :data-category1id="item1.categoryId">{{ item1.categoryName }}</a>
                 </h3>
                 <!-- 二三级分类 -->
                 <div class="item-list clearfix"
@@ -27,13 +27,13 @@
                     <dl class="fore">
                       <dt>
                         <a :data-categoryname="item2.categoryName"
-                           :data-categoryid2="item2.categoryId">{{item2.categoryName}}</a>
+                           :data-category2id="item2.categoryId">{{item2.categoryName}}</a>
                       </dt>
                       <dd>
                         <em v-for="(item3,index) in item2.categoryChild"
                             :key="item3.categoryId">
                           <a :data-categoryname="item3.categoryName"
-                             :data-categoryid3="item3.categoryId">{{item3.categoryName}}</a>
+                             :data-category3id="item3.categoryId">{{item3.categoryName}}</a>
                         </em>
                       </dd>
                     </dl>
@@ -95,18 +95,18 @@ export default {
     },
     goSearch(event) {
       let element = event.target
-      let { categoryname, categoryid1, categoryid2, categoryid3 } =
+      let { categoryname, category1id, category2id, category3id } =
         element.dataset
 
       if (categoryname) {
         let location = { name: 'search' }
         let query = { categoryName: categoryname }
-        if (categoryid1) {
-          query.categoryId1 = categoryid1
-        } else if (categoryid2) {
-          query.categoryId2 = categoryid2
+        if (category1id) {
+          query.category1Id = category1id
+        } else if (category2id) {
+          query.category2Id = category2id
         } else {
-          query.categoryId3 = categoryid3
+          query.category3Id = category3id
         }
         if (this.$route.params) {
           location.params = this.$route.params

@@ -15,13 +15,21 @@
                 v-if="searchParmas.categoryName"
                 @click="removeName">{{ searchParmas.categoryName }}<i>×</i></li>
             <li class="with-x"
-                v-if="searchParmas.keyword"
-                @click="removeKeyword">{{ searchParmas.keyword }}<i>×</i></li>
+                v-if="searchParmas.keyWord"
+                @click="removeKeyword">{{ searchParmas.keyWord }}<i>×</i></li>
+            <li class="with-x"
+                v-if="searchParmas.trademark"
+                @click="removeTrademark">{{ searchParmas.trademark.split(":")[1] }}<i>×</i></li>
+            <li class="with-x"
+                v-for="(attrValue,index) in searchParmas.props"
+                :key="index"
+                @click="removeAttr(index)">{{ attrValue.split(":")[1] }}<i>×</i></li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo"
+                        @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -136,7 +144,7 @@ export default {
         // 分类名字
         categoryName: '',
         // 关键字
-        keyword: '',
+        keyWord: '',
         // 平台售卖属性操作带的参数
         props: [],
         // 品牌
@@ -178,12 +186,31 @@ export default {
       }
     },
     removeKeyword() {
-      this.searchParmas.keyword = undefined
+      this.searchParmas.keyWord = undefined
       this.getData()
       this.$bus.$emit('clear')
       if (this.$route.query) {
         this.$router.push({ name: 'search', query: this.query })
       }
+    },
+    trademarkInfo(trademark) {
+      this.searchParmas.trademark = `${trademark.tmId}:${trademark.tmName}`
+      this.getData()
+    },
+    removeTrademark() {
+      this.searchParmas.trademark = undefined
+      this.getData()
+    },
+    attrInfo(attrs, attrValue) {
+      let props = `${attrs.attrId}:${attrValue}:${attrs.attrName}`
+      if (this.searchParmas.props.indexOf(props) == -1) {
+        this.searchParmas.props.push(props)
+      }
+      this.getData()
+    },
+    removeAttr(index) {
+      this.searchParmas.props.splice(index, 1)
+      this.getData()
     },
   },
   // 数据监听
