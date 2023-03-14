@@ -36,23 +36,17 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active:isOne}"
+                    @click="changeOrder('1')">
+                  <a>综合<span v-show="isOne"
+                          class="iconfont"
+                          :class="{'icon-triangleUp_solid_1':isAsc,'icon-triangleDown_solid_1':isDesc}"></span></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{active:isTwo}"
+                    @click="changeOrder('2')">
+                  <a>价格<span v-show="isTwo"
+                          class="iconfont"
+                          :class="{'icon-triangleUp_solid_1':isAsc,'icon-triangleDown_solid_1':isDesc}"></span></a>
                 </li>
               </ul>
             </div>
@@ -92,35 +86,8 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 分页器 -->
+          <Pagination :pageNo="1" :pageSize="3" :total="180" :continues="5"/>
         </div>
       </div>
     </div>
@@ -149,7 +116,7 @@ export default {
         props: [],
         // 品牌
         trademark: '',
-        order: '',
+        order: '1:desc',
         pageNo: 1,
         pageSize: 3,
       },
@@ -170,6 +137,18 @@ export default {
   },
   computed: {
     ...mapGetters(['goodsList']),
+    isOne() {
+      return this.searchParmas.order.indexOf('1') != -1
+    },
+    isTwo() {
+      return this.searchParmas.order.indexOf('2') != -1
+    },
+    isAsc() {
+      return this.searchParmas.order.indexOf('asc') != -1
+    },
+    isDesc() {
+      return this.searchParmas.order.indexOf('desc') != -1
+    },
   },
   methods: {
     getData() {
@@ -210,6 +189,22 @@ export default {
     },
     removeAttr(index) {
       this.searchParmas.props.splice(index, 1)
+      this.getData()
+    },
+    // 排序操作
+    changeOrder(flag) {
+      let originFlag = this.searchParmas.order.split(':')[0]
+      let originSort = this.searchParmas.order.split(':')[1]
+      // console.log(originFlag, originSort)
+      let newOrder = ''
+      if (flag == originFlag) {
+        newOrder = `${flag}:${originSort == 'desc' ? 'asc' : 'desc'}`
+        this.searchParmas.order = newOrder
+        this.getData()
+      } else {
+        newOrder = `${flag}:${'desc'}`
+      }
+      this.searchParmas.order = newOrder
       this.getData()
     },
   },

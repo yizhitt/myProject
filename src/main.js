@@ -11,8 +11,10 @@ Vue.use(Vant);
 // 引入全局组件
 import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
+import Pagination from '@/components/Pagination'
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
+Vue.component(Pagination.name, Pagination)
 
 // 引入仓库
 import store from '@/store';
