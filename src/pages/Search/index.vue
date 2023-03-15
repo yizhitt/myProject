@@ -58,8 +58,9 @@
                   :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html"
-                       target="_blank"><img :src="good.defaultImg" /></a>
+                    <router-link :to="`/detail/${good.id}`">
+                      <img :src="good.defaultImg" />
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -87,7 +88,7 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <Pagination :pageNo="1" :pageSize="3" :total="180" :continues="5"/>
+          <Pagination :pageNo="searchParmas.pageNo" :pageSize="searchParmas.pageSize" :total="total" :continues="5" @goPage="goPage"/>
         </div>
       </div>
     </div>
@@ -96,7 +97,7 @@
 
 <script>
 import SearchSelector from './SearchSelector/SearchSelector'
-import { mapGetters } from 'vuex'
+import { mapGetters,mapState } from 'vuex'
 export default {
   name: 'Search',
   components: {
@@ -149,6 +150,9 @@ export default {
     isDesc() {
       return this.searchParmas.order.indexOf('desc') != -1
     },
+    ...mapState({
+      total:state=>state.search.searchList.total
+    })
   },
   methods: {
     getData() {
@@ -207,6 +211,12 @@ export default {
       this.searchParmas.order = newOrder
       this.getData()
     },
+    // 自定义事件的回调函数
+    goPage(pageNo){
+      console.log(pageNo)
+      this.searchParmas.pageNo = pageNo
+      this.getData()
+    }
   },
   // 数据监听
   watch: {
