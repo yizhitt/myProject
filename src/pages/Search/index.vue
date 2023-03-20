@@ -28,8 +28,7 @@
         </div>
 
         <!--selector-->
-        <SearchSelector @trademarkInfo="trademarkInfo"
-                        @attrInfo="attrInfo" />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">

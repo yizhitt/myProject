@@ -41,7 +41,7 @@ export default [{
   }
 },
 {
-  path: '/detail/:skuid',
+  path: '/detail/:skuId',
   name: 'detail',
   component: Detail,
   meta: {

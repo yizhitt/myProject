@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const requests = axios.create({
-  // baseURL: '/api',
+  baseURL: 'http://gmall-h5-api.atguigu.cn/api',
   timeout: 5000,
 });
 
