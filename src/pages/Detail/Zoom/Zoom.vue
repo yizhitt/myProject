@@ -3,7 +3,7 @@
     <img :src="objImg.imgUrl" />
     <div class="event"></div>
     <div class="big">
-      <img src="../images/s1.png" />
+      <img :src="objImg.imgUrl" />
     </div>
     <div class="mask"></div>
   </div>
