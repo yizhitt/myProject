@@ -63,19 +63,19 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl v-for="(skuSaleAttr,index) in skuSaleAttrValueList" :key="skuSaleAttr.id">
-                <dt class="title">{{ skuSaleAttr.saleAttrName }}</dt>
-                <dd changepirce="0" class="active">{{ skuSaleAttr.saleAttrValueName }}</dd>
+              <dl v-for="(spuSaleAttr,index) in spuSaleAttrList" :key="spuSaleAttr.id">
+                <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
+                <dd changepirce="0" :class="{active: spuSale.isChecked == 1}" v-for="(spuSale,index) in spuSaleAttr.spuSaleAttrValueList" :key="spuSale.id" @click="changeValue(spuSaleAttr.spuSaleAttrValueList,spuSale)">{{ spuSale.saleAttrValueName }}</dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="changeSkuNum" />
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--: skuNum =1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addShopcar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -331,6 +331,11 @@
   import { mapGetters } from 'vuex'
   export default {
     name: 'Detail',
+    data() {
+      return {
+        skuNum: 1
+      }
+    },
     components: {
       ImageList,
       Zoom
@@ -339,10 +344,47 @@
       this.$store.dispatch('getDetailInfo',this.$route.params.skuId)
     },
     computed:{
-        ...mapGetters(['categoryView','skuInfo','skuSaleAttrValueList']),
+        ...mapGetters(['categoryView','skuInfo','spuSaleAttrList']),
+        // 给子组件传数据
         skuImageList(){
           return this.skuInfo.skuImageList || []
         }
+    },
+    methods:{
+      // 产品的售卖属性值切换高亮
+      changeValue(valueList,value) {
+        valueList.forEach(element => {
+          element.isChecked = 0
+        });
+        value.isChecked = 1
+      },
+      // 表单元素修改产品个数
+      changeSkuNum(event){
+        console.log(event.target.value)
+        let num = event.target.value * 1
+        if(isNaN(num) || num < 1){
+          this.skuNum = 1
+        }else {
+          this.skuNum = parseInt(num)
+        }
+      },
+      // 加入购物车的回调函数
+      async addShopcar(){
+        // 1:发请求---将产品加入到数据库（通知服务器）
+        /* 
+            当前这里是派发一个action，也想服务器发请求
+            判断加入购物车是成功还是失败了
+            this.$store.dispatch('addOrUpdateShopCart',{skuId:this.$route.params.skuId, skuNum: this.skuNum })
+            上面这行代码说白了：调用仓库中的addOrUpdateShopCart，这个方法加上async，返回一定是一个Promise---要么成功|要么失败
+        */
+        try {
+          await this.$store.dispatch('addOrUpdateShopCart',{skuId:this.$route.params.skuId, skuNum: this.skuNum });
+          sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo))
+          this.$router.push({name:'addcartsuccess',query:{skuNum:this.skuNum}})
+        } catch (error) {
+          alert(error.message)
+        }
+      }
     }
   }
 </script>
