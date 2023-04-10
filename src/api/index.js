@@ -1,5 +1,5 @@
 // 当前这个模块：API进行统一管理
-import requests from './request';
+import requests from './ajax';
 import mockRequests from './mockAjax';
 
 export const reqCategoryList = () => requests({

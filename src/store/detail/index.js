@@ -1,6 +1,9 @@
 import { reqGetDetailInfo, reqAddOrUpdateShopCart } from "@/api"
+import { getUUID } from '@/utils/uuid_token'
 const state = {
-  detailInfo: {}
+  detailInfo: {},
+  // 游客临时身份
+  uuid_token: getUUID()
 };
 const mutations = {
   GETDETAILINFO(state, detailInfo) {
@@ -23,7 +26,7 @@ const actions = {
     // 因为服务器没有返回其余数据，因此咱们不需要三连环存储数据
     let result = await reqAddOrUpdateShopCart(skuId, skuNum)
     // 判断服务器加入购物车成功
-    if(result.code == 200) {
+    if (result.code == 200) {
       return "ok"
     } else {
       // 代表加入购物车失败

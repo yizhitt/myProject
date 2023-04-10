@@ -11,31 +11,37 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list">
+        <ul class="cart-list"
+            v-for="(cart,index) in cartInfoList"
+            :key="cart.id">
           <li class="cart-list-con1">
             <input type="checkbox"
-                   name="chk_list">
+                   name="chk_list"
+                   :checked="cart.isChecked == 1">
           </li>
           <li class="cart-list-con2">
-            <img src="./images/goods1.png">
-            <div class="item-msg">米家（MIJIA） 小米小白智能摄像机增强版 1080p高清360度全景拍摄AI增强</div>
+            <img :src="cart.imgUrl">
+            <div class="item-msg">{{ cart.skuName }}</div>
           </li>
           <li class="cart-list-con4">
-            <span class="price">399.00</span>
+            <span class="price">{{ cart.cartPrice }}</span>
           </li>
           <li class="cart-list-con5">
             <a href="javascript:void(0)"
-               class="mins">-</a>
+               class="mins"
+               @click="handler('minus',-1,cart)">-</a>
             <input autocomplete="off"
                    type="text"
-                   value="1"
+                   :value="cart.skuNum"
                    minnum="1"
-                   class="itxt">
+                   class="itxt"
+                   @change="handler('change',$event.target.value*1,cart)">
             <a href="javascript:void(0)"
-               class="plus">+</a>
+               class="plus"
+               @click="handler('add',1,cart)">+</a>
           </li>
           <li class="cart-list-con6">
-            <span class="sum">399</span>
+            <span class="sum">{{ cart.cartPrice * cart.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
             <a href="#none"
@@ -48,8 +54,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll"
-               type="checkbox">
+        <input class="chooseAll" type="checkbox" :checked="isAllCheck">
         <span>全选</span>
       </div>
       <div class="option">
@@ -63,7 +68,7 @@
         </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn"
@@ -76,10 +81,48 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ShopCart',
   mounted() {
     this.$store.dispatch('getCartList')
+  },
+  methods: {
+    handler(type, disNum, cart) {
+      switch (type) {
+        case 'add':
+          disNum = 1
+          break
+        case 'minus':
+          cart.skuNum > 1 ? -1 : 0
+          break
+      }
+      // 派发action
+      this.$store.dispatch('addOrUpdateShopCart', {
+        skuId: cart.skuId,
+        skuNum: disNum,
+      })
+    },
+  },
+  computed: {
+    ...mapGetters(['cartList']),
+    // 购物车数据
+    cartInfoList() {
+      return this.cartList.cartInfoList || []
+    },
+    // 计算购买产品的总价
+    totalPrice() {
+      let sum = 0
+      this.cartInfoList.forEach((item) => {
+        sum += item.skuPrice * item.skuNum
+      })
+      return sum
+    },
+    isAllCheck() {
+      return this.cartInfoList.every((item) => {
+        item.isChecked == 1
+      })
+    },
   },
 }
 </script>
