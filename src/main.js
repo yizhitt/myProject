@@ -20,7 +20,7 @@ Vue.component(Pagination.name, Pagination)
 import store from '@/store';
 
 // 引入MockServer.js---mock数据
-import '@/mock/MockServe'
+import '@/mock/mockServe'
 
 // 引入swiper样式
 import 'swiper/css/swiper.css'
