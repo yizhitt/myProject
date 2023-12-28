@@ -14,14 +14,16 @@ export default [{
   name: 'home',
   component: Home,
   meta: {
-    show: true
+    show: true,
+    script: 'https://www.zjzwfw.gov.cn/jpcc_files/web1/tplConfig/index.js'
   }
 }, {
   path: '/login',
   name: 'login',
   component: Login,
   meta: {
-    show: false
+    show: false,
+    css: 'https://www.zjzwfw.gov.cn/jpcc_files/web1/tplConfig/index.css'
   }
 },
 {
@@ -64,5 +66,5 @@ export default [{
   meta: {
     show: true
   }
-}
+},
 ]

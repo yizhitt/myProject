@@ -15,6 +15,7 @@ import Table from './components/Table'
 import Header from './components/Header/index'
 import Footer from './components/Footer/index'
 import { areaList } from '@vant/area-data'
+
 export default {
   name: 'App',
   data() {
